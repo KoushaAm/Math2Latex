@@ -5,7 +5,8 @@ import os
 import random
 from torchvision import transforms
 from PIL import Image
-
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader, Subset
 
 #get a random image from the dataset
 
@@ -40,9 +41,11 @@ def get_random_image(dir, type):
     #convert to PIL image
     pil_image = transforms.ToPILImage()(tensor_image)
     #plot the image
-    plt.imshow(pil_image)
+    visual_image(pil_image)
+    
+
+def visual_image(img):
+    plt.imshow(img)
     plt.show()
-    return pil_image
+    return img
 
-
-#img = get_random_image(DATA_SIMPLE_DIR, "infty")
