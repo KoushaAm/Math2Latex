@@ -1,5 +1,6 @@
 import torch 
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import random
 from torchvision import transforms
@@ -9,6 +10,20 @@ from PIL import Image
 #get a random image from the dataset
 
 DATA_SIMPLE_DIR = "data/data_simple/"
+
+#classes of the dataset
+
+#get the categories of the dataset
+def get_categories(dir):
+        
+    symbles = np.array(sorted([symbol for symbol in os.listdir(dir)]))
+    return symbles
+
+
+symbles = get_categories(DATA_SIMPLE_DIR)
+print(symbles, len(symbles)) # 83 classes
+
+
 
 
 # Data visualization tool
@@ -30,4 +45,4 @@ def get_random_image(dir, type):
     return pil_image
 
 
-img = get_random_image(DATA_SIMPLE_DIR, "infty")
+#img = get_random_image(DATA_SIMPLE_DIR, "infty")
