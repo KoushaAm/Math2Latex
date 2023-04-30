@@ -9,7 +9,6 @@ from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, Subset
 
 #get a random image from the dataset
-
 DATA_SIMPLE_DIR = "data/data_simple/"
 
 #classes of the dataset
@@ -49,3 +48,4 @@ def visual_image(img):
     plt.show()
     return img
 
+# visual_image(get_random_image(DATA_SIMPLE_DIR, "0"))

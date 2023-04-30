@@ -7,6 +7,9 @@ from torchvision import transforms
 from PIL import Image
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, Subset
+
+
+
 def loadtotensor(dir, type, number):
 
     # Set the path to your dataset folder
@@ -32,6 +35,8 @@ def loadtotensor(dir, type, number):
     batch_size = 32
     dataloader = DataLoader(subset, batch_size=batch_size, shuffle=True)
     print (len(dataloader))
+
+
     # Iterate over the data in batches
     #for data in dataloader:
         
