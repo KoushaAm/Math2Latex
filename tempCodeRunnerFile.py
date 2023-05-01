@@ -1,1 +1,1 @@
-labels
+from torchvision.datasets.utils import TransformedTargetTensor

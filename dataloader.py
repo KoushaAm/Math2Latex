@@ -8,17 +8,32 @@ from PIL import Image
 from torchvision.datasets import ImageFolder
 from torchvision.utils import make_grid
 from torch.utils.data import DataLoader, Subset
+from sklearn.preprocessing import LabelEncoder
+# from torchvision.datasets.utils import TransformedTargetTensor
+
+
 
 FOLDER_NAME = "data_simple"
 
 
-classes = ['!' '(' ')' '+' ',' '-' '.DS_Store' '0' '1' '2' '3' '4' '5' '6' '7' '8'
- '9' '=' 'A' 'C' 'Delta' 'G' 'H' 'M' 'N' 'R' 'S' 'T' 'X' '[' ']' 'alpha'
- 'ascii_124' 'b' 'beta' 'cos' 'd' 'div' 'e' 'exists' 'f' 'forall'
- 'forward_slash' 'gamma' 'geq' 'gt' 'i' 'in' 'infty' 'int' 'j' 'k' 'l'
- 'lambda' 'ldots' 'leq' 'lim' 'log' 'lt' 'mu' 'neq' 'o' 'p' 'phi' 'pi'
- 'pm' 'prime' 'q' 'rightarrow' 'sigma' 'sin' 'sqrt' 'sum' 'tan' 'theta'
- 'times' 'u' 'v' 'w' 'y' 'z' '{' '}']
+classes = ['!', '(', ')', '+', ',', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+ '9', '=', 'A', 'C', 'Delta', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'X', '[', ']', 'alpha',
+ '|', 'b', 'beta', 'cos', 'd', 'div', 'e', 'exists', 'f', 'forall',
+ '/', 'gamma', 'geq', 'gt', 'i', 'in', 'infty', 'int', 'j', 'k', 'l',
+ 'lambda', 'ldots', 'leq', 'lim', 'log', 'lt', 'mu', 'neq', 'o', 'p', 'phi', 'pi',
+ 'pm', "'", 'q', 'rightarrow', 'sigma', 'sin', 'sqrt', 'sum', 'tan', 'theta',
+ 'times', 'u', 'v', 'w', 'y', 'z', '{', '}']
+
+
+# initialize the label encoder
+label_encoder = LabelEncoder()
+# fit the label encoder to the list of classes
+label_encoder.fit(classes)
+
+# encoded labels
+encoded_labels = label_encoder.transform(classes)
+print(encoded_labels) #why does it print [0] only?
+
 
 
 def loadtotensor(dir):
@@ -32,21 +47,31 @@ def loadtotensor(dir):
 
     # Create a list of indices for each folder to select only the desired number of images
     folder_indices = []
+    folder_labels = []
+    
     for folder_name in os.listdir(dir):
+        
         if folder_name != ".DS_Store":
 
             folder_path = os.path.join(dir, folder_name + "/")
             folder_images = [f for f in os.listdir(folder_path) if f.endswith('.jpg')]
-            if folder_name == "exists" or folder_name == "in" or folder_name == "forall":
+
+            if folder_name in ["exists", "in", "forall"]:
                 folder_indices.extend(random.sample(range(len(folder_images)), 20))
             else: 
                 folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
     
     #print(len(folder_indices)) # should be 82(classes) * num_images_per_folder
 
+    # Encode the label using LabelEncoder
+    label = label_encoder.transform([folder_name])[0]
+    folder_labels.extend([label] * len(folder_images))
+
 
     # Create a subset of the dataset with only the desired images
+    # subset = Subset(dataset, folder_indices, target_transform=torch.from_numpy(np.array(folder_labels)))
     subset = Subset(dataset, folder_indices)
+    # subset = TransformedTargetTensor(subset, transform=torch.from_numpy(np.array(folder_labels)))
 
     #print(len(subset)) # should be 82 * num_images_per_folder as well
 
@@ -58,6 +83,8 @@ def loadtotensor(dir):
     return dataloader
 
 
+
+# Create a DataLoader object
 data_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 # Get a random batch
