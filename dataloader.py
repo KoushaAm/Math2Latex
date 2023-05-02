@@ -63,15 +63,21 @@ def loadtotensor(dir):
                 
             else: 
                 folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
+            
+
                
     
     #print(len(folder_indices)) # should be 82(classes) * num_images_per_folder
             label = label_encoder.transform([folder_name])
+            folder_labels.append(label)
     # Encode the label using LabelEncoder
-   
+    folder_labels = torch.tensor(folder_labels, dtype=torch.int64)
+    folder_labels = folder_labels.tolist()
     folder_labels.extend([label] * len(folder_images))
+    subset = Subset(dataset, folder_indices)
     sampler = SubsetRandomSampler(folder_indices)
 
+    #print(label_encoder.inverse_transform(label))
 
     # Create a subset of the dataset with only the desired images
     # subset = Subset(dataset, folder_indices, target_transform=torch.from_numpy(np.array(folder_labels)))
@@ -86,6 +92,7 @@ def loadtotensor(dir):
 
 
     return dataloader
+
 
 
 
@@ -128,10 +135,5 @@ print(batch[1])
 # plt.imshow(image)
 # plt.show()
 
-batch = next(iter(data_loader))
 
-print(batch[1])
-for i in range(0,200):
-    batch = next(iter(data_loader))
-    print(batch[1])
     
