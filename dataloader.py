@@ -88,7 +88,7 @@ def loadtotensor(dir):
 
     # Create a DataLoader object with a batch size of 32
     batch_size = 32
-    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True, sampler=sampler)
+    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True, shuffle=True)
 
 
     return dataloader
@@ -116,9 +116,9 @@ images = (images - images.min()) / (images.max() - images.min())
 grid = make_grid(images, nrow=8, padding=2)
 grid = grid.permute(1, 2, 0).numpy()
 
-#plt.figure(figsize=(10, 10))
-#plt.imshow(grid)
-#plt.show()
+plt.figure(figsize=(10, 10))
+plt.imshow(grid)
+plt.show()
 
 # Show the labels of the images
 print(labels)
@@ -135,5 +135,13 @@ print(batch[1])
 # plt.imshow(image)
 # plt.show()
 
-
-    
+for i in range(0, 200):
+    batch = next(iter(data_loader))
+    images, labels = batch
+    # Select a random image from the batch
+    idx = random.randint(0, len(images) - 1)
+    image = images[idx].permute(1, 2, 0)
+    # Display the image using matplotlib
+    plt.imshow(image)
+    plt.title(label_encoder.inverse_transform([labels[idx]])[0])
+    plt.show()
