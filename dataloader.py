@@ -32,7 +32,7 @@ label_encoder.fit(classes)
 
 # encoded labels
 encoded_labels = label_encoder.transform(classes)
-print(encoded_labels) #why does it print [0] only?
+#print(encoded_labels) #why does it print [0] only?
 
 
 
@@ -58,13 +58,15 @@ def loadtotensor(dir):
 
             if folder_name in ["exists", "in", "forall"]:
                 folder_indices.extend(random.sample(range(len(folder_images)), 20))
+                
             else: 
                 folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
+               
     
     #print(len(folder_indices)) # should be 82(classes) * num_images_per_folder
-
+            label = label_encoder.transform([folder_name])[0]
     # Encode the label using LabelEncoder
-    label = label_encoder.transform([folder_name])[0]
+   
     folder_labels.extend([label] * len(folder_images))
 
 
@@ -94,8 +96,6 @@ batch = next(iter(data_loader))
 # print(batch[0].shape)
 
 
-batch = next(iter(data_loader))
-
 # Get the images and labels from the batch
 images, labels = batch
 
@@ -106,12 +106,13 @@ images = (images - images.min()) / (images.max() - images.min())
 grid = make_grid(images, nrow=8, padding=2)
 grid = grid.permute(1, 2, 0).numpy()
 
-plt.figure(figsize=(10, 10))
-plt.imshow(grid)
-plt.show()
+#plt.figure(figsize=(10, 10))
+#plt.imshow(grid)
+#plt.show()
 
 # Show the labels of the images
-print(labels.numpy())
+print(labels)
+print(batch[1])
 
 
 
@@ -123,3 +124,6 @@ print(labels.numpy())
 # # #Display the image using matplotlib
 # plt.imshow(image)
 # plt.show()
+all_labels = torch.cat([all_labels, labels])
+
+all_labels = torch.cat([all_labels, labels])
