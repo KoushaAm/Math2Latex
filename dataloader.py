@@ -7,7 +7,7 @@ from torchvision import transforms
 from PIL import Image
 from torchvision.datasets import ImageFolder
 from torchvision.utils import make_grid
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import DataLoader, Subset, SubsetRandomSampler
 from sklearn.preprocessing import LabelEncoder
 # from torchvision.datasets.utils import TransformedTargetTensor
 
@@ -26,12 +26,11 @@ classes = ['!', '(', ')', '+', ',', '-', '0', '1', '2', '3', '4', '5', '6', '7',
 
 
 # initialize the label encoder
-label_encoder = LabelEncoder()
+label_encoder = LabelEncoder().fit(classes)
 # fit the label encoder to the list of classes
-label_encoder.fit(classes)
 
 # encoded labels
-encoded_labels = label_encoder.transform(classes)
+encoded_classes = label_encoder.transform(classes)
 #print(encoded_labels) #why does it print [0] only?
 
 
@@ -48,7 +47,10 @@ def loadtotensor(dir):
     # Create a list of indices for each folder to select only the desired number of images
     folder_indices = []
     folder_labels = []
-    
+    seed = 42
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
     for folder_name in os.listdir(dir):
         
         if folder_name != ".DS_Store":
@@ -68,6 +70,7 @@ def loadtotensor(dir):
     # Encode the label using LabelEncoder
    
     folder_labels.extend([label] * len(folder_images))
+    sampler = SubsetRandomSampler(folder_indices)
 
 
     # Create a subset of the dataset with only the desired images
@@ -79,7 +82,7 @@ def loadtotensor(dir):
 
     # Create a DataLoader object with a batch size of 32
     batch_size = 32
-    dataloader = DataLoader(subset, batch_size=batch_size, shuffle=True, drop_last=True)
+    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True, sampler=sampler)
 
 
     return dataloader
@@ -125,3 +128,10 @@ print(batch[1])
 # plt.imshow(image)
 # plt.show()
 
+batch = next(iter(data_loader))
+
+print(batch[1])
+for i in range(0,200):
+    batch = next(iter(data_loader))
+    print(batch[1])
+    
