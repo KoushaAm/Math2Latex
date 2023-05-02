@@ -19,9 +19,9 @@ FOLDER_NAME = "data_simple"
 classes = ['!', '(', ')', '+', ',', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8',
  '9', '=', 'A', 'C', 'Delta', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'X', '[', ']', 'alpha',
  '|', 'b', 'beta', 'cos', 'd', 'div', 'e', 'exists', 'f', 'forall',
- '/', 'gamma', 'geq', 'gt', 'i', 'in', 'infty', 'int', 'j', 'k', 'l',
+ 'forward_slash', 'gamma', 'geq', 'gt', 'i', 'in', 'infty', 'int', 'j', 'k', 'l',
  'lambda', 'ldots', 'leq', 'lim', 'log', 'lt', 'mu', 'neq', 'o', 'p', 'phi', 'pi',
- 'pm', "'", 'q', 'rightarrow', 'sigma', 'sin', 'sqrt', 'sum', 'tan', 'theta',
+ 'pm', "prime" , 'q', 'rightarrow', 'sigma', 'sin', 'sqrt', 'sum', 'tan', 'theta',
  'times', 'u', 'v', 'w', 'y', 'z', '{', '}']
 
 
@@ -64,7 +64,7 @@ def loadtotensor(dir):
                
     
     #print(len(folder_indices)) # should be 82(classes) * num_images_per_folder
-            label = label_encoder.transform([folder_name])[0]
+            label = label_encoder.transform([folder_name])
     # Encode the label using LabelEncoder
    
     folder_labels.extend([label] * len(folder_images))
@@ -124,6 +124,4 @@ print(batch[1])
 # # #Display the image using matplotlib
 # plt.imshow(image)
 # plt.show()
-all_labels = torch.cat([all_labels, labels])
 
-all_labels = torch.cat([all_labels, labels])
