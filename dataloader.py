@@ -98,7 +98,7 @@ def loadtotensor(dir):
 
     # Create a DataLoader object with a batch size of 32
     batch_size = 32
-    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True)
+    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True,shuffle=True)
 
 
     return dataloader
