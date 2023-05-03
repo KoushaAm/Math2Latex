@@ -98,7 +98,7 @@ def loadtotensor(dir):
 
     # Create a DataLoader object with a batch size of 32
     batch_size = 32
-    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True, shuffle=True)
+    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True)
 
 
     return dataloader
@@ -122,6 +122,9 @@ for i in range(4):
     print(labels)
 
     images = (images - images.min()) / (images.max() - images.min())
+    #plt.figure(figsize=(10, 10))
+    #plt.imshow(grid)
+    #plt.show()
 
     # Make a grid of the images and convert it to a numpy array
     grid = make_grid(images, nrow=8, padding=2)
@@ -150,3 +153,5 @@ plt.show()
 #     plt.show()
 
 
+
+    
