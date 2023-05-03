@@ -15,13 +15,8 @@ from sklearn.preprocessing import LabelEncoder
 FOLDER_NAME = "data_simple"
 
 
-classes = ['-','!', '(', ')','[', ']', '+', ',', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8',
- '9', '=', 'A', 'C', 'Delta', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'X', 'alpha',
- '|', 'b', 'beta', 'cos', 'd', 'div', 'e', 'exists', 'f', 'forall',
- 'forward_slash', 'gamma', 'geq', 'gt', 'i', 'in', 'infty', 'int', 'j', 'k', 'l',
- 'lambda', 'ldots', 'leq', 'lim', 'log', 'lt', 'mu', 'neq', 'o', 'p', 'phi', 'pi',
- 'pm', "prime" , 'q', 'rightarrow', 'sigma', 'sin', 'sqrt', 'sum', 'tan', 'theta',
- 'times', 'u', 'v', 'w', 'y', 'z', '{', '}']
+classes = ['beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt', 'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8', 'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi', 'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta', 'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=', '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq', '2', 'y', '5', 'p', 'w']
+
 
 
 # initialize the label encoder
@@ -64,17 +59,18 @@ def loadtotensor(dir):
             if folder_name in ["exists", "in", "forall"]:
                 indices = random.sample(range(len(folder_images)), 20)
                 folder_indices.extend(indices)
-                
+                folder_labels.extend([label]* len(indices))
                 
             else: 
-                folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
-                
+                folder_indices.extend(random.sample(range(len(folder_images)),  num_images_per_folder))
+                folder_labels.extend([label]* num_images_per_folder)
+
             
 
             # print(folder_name)
     
-            label = label_encoder.transform([folder_name])
-            folder_labels.append(label)
+
+           
 
         # print(folder_indices)
         # print("new folder")
