@@ -50,24 +50,25 @@ def loadtotensor(dir):
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
-
+    folder_images=[]
     for folder_name in os.listdir(dir):
+        print(folder_name)
         
         
         if folder_name != ".DS_Store":
 
             folder_path = os.path.join(dir, folder_name + "/")
-            folder_images = [f for f in os.listdir(folder_path) if f.endswith('.jpg')]
+            folder_images.extend([f for f in os.listdir(folder_path) if f.endswith('.jpg')])
             label = label_encoder.transform([folder_name])
 
             if folder_name in ["exists", "in", "forall"]:
                 indices = random.sample(range(len(folder_images)), 20)
                 folder_indices.extend(indices)
-                folder_labels.extend([label] * len(indices))
+                
                 
             else: 
                 folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
-                folder_labels.extend([label] * num_images_per_folder)
+                
             
 
             # print(folder_name)
@@ -80,7 +81,6 @@ def loadtotensor(dir):
                
 
     # Shuffle the indices
-    random.shuffle(folder_indices)
 
     #print(len(folder_indices)) # should be 82(classes) * num_images_per_folder
 
@@ -88,17 +88,18 @@ def loadtotensor(dir):
     folder_labels = torch.tensor(folder_labels, dtype=torch.int64)
     folder_labels = folder_labels.tolist()
     folder_labels.extend([label] * len(folder_images))
-
+    #print(folder_indices)
     # print(label_encoder.inverse_transform(label))
-
+    random.shuffle(folder_indices)
     # Create a subset of the dataset with only the desired images
+    #print(folder_indices)
     subset = Subset(dataset, folder_indices)
- 
+
     #print(len(subset)) # should be 82 * num_images_per_folder as well
 
     # Create a DataLoader object with a batch size of 32
     batch_size = 32
-    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True,shuffle=True)
+    dataloader = DataLoader(subset, batch_size=batch_size, drop_last=True, shuffle=True)
 
 
     return dataloader
@@ -141,17 +142,13 @@ plt.tight_layout()
 plt.savefig('batches.png')
 plt.show()
 
-# for i in range(0, 20):
-#     batch = next(iter(data_loader))
-#     images, labels = batch
-#     # Select a random image from the batch
-#     idx = random.randint(0, len(images) - 1)
-#     image = images[idx].permute(1, 2, 0)
-#     # Display the image using matplotlib
-#     plt.imshow(image)
-#     plt.title(label_encoder.inverse_transform([labels[idx]])[0])
-#     plt.show()
-
-
-
-    
+for i in range(0, 20):
+    batch = next(iter(data_loader))
+    images, labels = batch
+     # Select a random image from the batch
+    idx = random.randint(0, len(images) - 1)
+    image = images[idx].permute(1, 2, 0)
+     # Display the image using matplotlib
+    plt.imshow(image)
+    plt.title(label_encoder.inverse_transform([labels[idx]])[0])
+    plt.show()
