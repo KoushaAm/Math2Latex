@@ -54,7 +54,7 @@ def loadtotensor(dir):
     
 
     for folder_name in os.listdir(dir):
-        print(folder_name)
+        # print(folder_name)
         
         
         if folder_name != ".DS_Store":
@@ -99,55 +99,55 @@ def loadtotensor(dir):
 
 
 
-# # Create a DataLoader object
-# data_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
+# # # Create a DataLoader object
+# # data_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 
-def show_batches(data_loader):
+# def show_batches(data_loader):
 
-# # Create a figure with 5 rows and 2 columns to display 10 batches
-fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+# # # Create a figure with 5 rows and 2 columns to display 10 batches
+# fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
-for i in range(4):
-    # Get a random batch
-    batch = next(iter(data_loader))
+# for i in range(4):
+#     # Get a random batch
+#     batch = next(iter(data_loader))
 
-    # Get the images and labels from the batch
-    images, labels = batch
-    print(labels)
+#     # Get the images and labels from the batch
+#     images, labels = batch
+#     print(labels)
 
-    images = (images - images.min()) / (images.max() - images.min())
-    #plt.figure(figsize=(10, 10))
-    #plt.imshow(grid)
-    #plt.show()
+#     images = (images - images.min()) / (images.max() - images.min())
+#     #plt.figure(figsize=(10, 10))
+#     #plt.imshow(grid)
+#     #plt.show()
 
-    # Make a grid of the images and convert it to a numpy array
-    grid = make_grid(images, nrow=8, padding=2)
-    grid = grid.permute(1, 2, 0).numpy()
+#     # Make a grid of the images and convert it to a numpy array
+#     grid = make_grid(images, nrow=8, padding=2)
+#     grid = grid.permute(1, 2, 0).numpy()
 
-    # Plot the grid in a subplot
-    row = i // 2
-    col = i % 2
-    axs[row, col].imshow(grid)
-    axs[row, col].set_title(f"Batch {i+1}")
+#     # Plot the grid in a subplot
+#     row = i // 2
+#     col = i % 2
+#     axs[row, col].imshow(grid)
+#     axs[row, col].set_title(f"Batch {i+1}")
 
-# Show the plot
-plt.tight_layout()
-plt.savefig('batches.png')
-plt.show()
+# # Show the plot
+# plt.tight_layout()
+# plt.savefig('batches.png')
+# plt.show()
 
-for i in range(0, 20):
-    batch = next(iter(data_loader))
-    images, labels = batch
-     # Select a random image from the batch
-    idx = random.randint(0, len(images) - 1)
-    image = images[idx].permute(1, 2, 0)
-     # Display the image using matplotlib
-    plt.imshow(image)
-    plt.title(label_encoder.inverse_transform([labels[idx]])[0])
-    plt.show()
+# for i in range(0, 20):
+#     batch = next(iter(data_loader))
+#     images, labels = batch
+#      # Select a random image from the batch
+#     idx = random.randint(0, len(images) - 1)
+#     image = images[idx].permute(1, 2, 0)
+#      # Display the image using matplotlib
+#     plt.imshow(image)
+#     plt.title(label_encoder.inverse_transform([labels[idx]])[0])
+#     plt.show()
 
 
 
-show_batches(data_loader)
-# show_random_images(data_loader)
+# show_batches(data_loader)
+# # show_random_images(data_loader)

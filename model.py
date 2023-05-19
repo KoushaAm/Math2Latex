@@ -47,7 +47,7 @@ class ConvNet(nn.Module):
         self.flatten = nn.Flatten()
         self.fc1 = nn.Linear(3872, 256)
         self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128,81)
+        self.fc3 = nn.Linear(128,80)
     
     def forward(self, x):
         x = self.conv1(x)
@@ -70,8 +70,7 @@ FOLDER_NAME = "data_simple"
 
 data= loadtotensor("data/{}/".format(FOLDER_NAME))
 
-for i in (1,100):
-    batch = next(iter(data))
+for batch in data:
     output=model(batch[0])
 
 
@@ -79,4 +78,35 @@ torch.save(model, 'model.pth')
 
 # Load the entire model
 model = torch.load('model.pth')
+
+model = torch.load('model.pth')
+
+# Set the model in evaluation mode
+model.eval()
+
+# Perform inference on test data
+label_mapping = ['beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
+           'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
+           'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
+             'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
+               'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
+                 'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
+                   '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
+                     '2', 'y', '5', 'p', 'w']
+
+predictions=[]
+
+with torch.no_grad():
+    for batch in data:
+        inputs = batch[0]
+        labels = batch[1]
+        outputs = model(inputs)
+        _, predicted_indices = torch.max(outputs, 1)
+        
+        # Assign labels based on predicted indices
+        predicted_labels = [label_mapping[idx] for idx in predicted_indices]
+        predictions.extend(predicted_labels)
+
+# Print the predictions
+print(predictions)
 
