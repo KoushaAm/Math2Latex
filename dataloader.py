@@ -52,13 +52,14 @@ def loadtotensor(dir):
     np.random.seed(seed)
     random.seed(seed)
     
-
+    c = 1
     for folder_name in os.listdir(dir):
         # print(folder_name)
         
         
         if folder_name != ".DS_Store":
-
+            print(c)
+            c +=1  
             folder_path = os.path.join(dir, folder_name + "/")
             folder_images.extend([f for f in os.listdir(folder_path) if f.endswith('.jpg')])
             label = label_encoder.transform([folder_name])
@@ -100,7 +101,7 @@ def loadtotensor(dir):
 
 
 # # # Create a DataLoader object
-# # data_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
+data_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 
 # def show_batches(data_loader):
@@ -151,3 +152,4 @@ def loadtotensor(dir):
 
 # show_batches(data_loader)
 # # show_random_images(data_loader)
+print(len(classes))
