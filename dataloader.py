@@ -95,7 +95,7 @@ def loadtotensor(dir, train_ratio=0.8):
 
 
 # Create DataLoader objects for training and test data
-# train_loader, test_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
+train_loader, test_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 # batch = next(iter(train_loader))
 # print(batch[1])
 
@@ -148,6 +148,6 @@ def show_batches(data_loader):
 
 
 
-# show_batches(test_loader)
+show_batches(train_loader)
 # # show_random_images(data_loader)
 # print(len(classes))
