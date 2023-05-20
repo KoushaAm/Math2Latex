@@ -68,45 +68,71 @@ model = ConvNet()
 
 FOLDER_NAME = "data_simple"
 
-data= loadtotensor("data/{}/".format(FOLDER_NAME))
+train_loader, test_loader= loadtotensor("data/{}/".format(FOLDER_NAME))
 
-for batch in data:
-    output=model(batch[0])
+model = ConvNet()
 
+classes = [
+    'beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
+    'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
+    'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
+    'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
+    'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
+    'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
+    '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
+    '2', 'y', '5', 'p', 'w'
+]
 
-torch.save(model, 'model.pth')
+# loss function = CrossEntropyLoss
+# optimizer = Adam and learning rate = 0.001 (maybe 0.01 is better)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-# Load the entire model
-model = torch.load('model.pth')
+# number of epochs = 10
+num_epochs = 10
+for epoch in range(num_epochs):
+    model.train()
+    total_loss = 0
+    correct = 0
+    total = 0
+    for images, labels in train_loader:
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        # Backpropagation and optimization to the initial input
+        loss.backward()
+        optimizer.step()
 
-model = torch.load('model.pth')
+        total_loss += loss.item()
+        # get the index with the highest probability
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
 
-# Set the model in evaluation mode
+        # a tensort made of 1 as True and 0 and False to compare with the true labels and predicted labes
+        correctPreds = (predicted == labels)
+        correct += correctPreds.sum().item()
+
+    # Calculate accuracy and average loss for the epoch
+    accuracy = 100 * correct / total
+    average_loss = total_loss / len(train_loader)
+
+    # Print epoch statistics
+    print(f"Epoch {epoch+1}/{num_epochs} - Loss: {average_loss:.4f} - Accuracy: {accuracy:.2f}%")
+
+# Evaluation on test set
 model.eval()
-
-# Perform inference on test data
-label_mapping = ['beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
-           'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
-           'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
-             'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
-               'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
-                 'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
-                   '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
-                     '2', 'y', '5', 'p', 'w']
-
-predictions=[]
-
 with torch.no_grad():
-    for batch in data:
-        inputs = batch[0]
-        labels = batch[1]
-        outputs = model(inputs)
-        _, predicted_indices = torch.max(outputs, 1)
-        
-        # Assign labels based on predicted indices
-        predicted_labels = [label_mapping[idx] for idx in predicted_indices]
-        predictions.extend(predicted_labels)
+    correct = 0
+    total = 0
+    for images, labels in test_loader:
+        outputs = model(images)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
 
-# Print the predictions
-print(predictions)
+    accuracy = 100 * correct / total
+    print(f"Test Accuracy: {accuracy:.2f}%")
 
+
+#SAVE MODEL
+torch.save(model.state_dict(), "model.pth")
