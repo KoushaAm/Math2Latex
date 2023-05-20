@@ -136,3 +136,36 @@ with torch.no_grad():
 
 #SAVE MODEL
 torch.save(model.state_dict(), "model.pth")
+
+
+
+
+# Preprocess the images
+transform = transforms.Compose([
+    transforms.Resize((45, 45)),
+    transforms.Grayscale(num_output_channels=3),
+    transforms.ToTensor(),
+])
+
+# image_paths = ["data/test_image/!_7865.jpg", "data/test_image/7_46.jpg", "data/test_image/exp25002.jpg"]
+# preprocessed_images = []
+# for image_path in image_paths:
+#     image = Image.open(image_path)
+#     preprocessed_image = transform(image)
+#     preprocessed_images.append(preprocessed_image)
+
+# batch_images = torch.stack(preprocessed_images)
+
+# # Perform inference
+# with torch.no_grad():
+#     outputs = model(batch_images)
+#     probabilities = torch.softmax(outputs, dim=1)
+#     # print("PROBABILITIES: ",probabilities)
+#     _, predicted_labels = torch.max(probabilities, dim=1)
+#     print("PREDICTED LABELS: ",predicted_labels)
+
+# predicted_class_names = [classes[label] for label in predicted_labels]
+
+# # Print the predicted class names for the three images
+# for i, image_path in enumerate(image_paths):
+#     print(f"Image: {image_path} - Predicted Class: {predicted_class_names[i]}")

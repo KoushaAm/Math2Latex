@@ -148,6 +148,6 @@ def show_batches(data_loader):
 
 
 
-show_batches(train_loader)
+# show_batches(train_loader)
 # # show_random_images(data_loader)
 # print(len(classes))
