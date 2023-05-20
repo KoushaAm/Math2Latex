@@ -41,7 +41,7 @@ model = ConvNet()
 
 
 # Load the pretrained model
-model.load_state_dict(torch.load("model.pth"))
+model.load_state_dict(torch.load("model_saved.pth"))
 model.eval()
 
 # Define the class labels
@@ -63,11 +63,12 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-image_paths = ["data/test_image/!_7865.jpg", "data/test_image/7_46.jpg", "data/test_image/exp25002.jpg"]
+image_paths = ["data/test_image/minus-vector-icon.jpg", "data/test_image/plus.jpg", "data/test_image/beta1.jpg", "data/test_image/beta2.jpg",  "data/test_image/beta3.jpg",  "data/test_image/beta4.jpg"]
 preprocessed_images = []
 for image_path in image_paths:
     image = Image.open(image_path)
     preprocessed_image = transform(image)
+    print(preprocessed_image.shape)
     preprocessed_images.append(preprocessed_image)
 
 batch_images = torch.stack(preprocessed_images)

@@ -88,6 +88,21 @@ def loadtotensor(dir, train_ratio=0.8):
     train_dataloader = DataLoader(train_subset, batch_size=batch_size, drop_last=True, shuffle=True)
     test_dataloader = DataLoader(test_subset, batch_size=batch_size, drop_last=True, shuffle=True)
 
+    # Create a dictionary to track the labels that have been seen
+    label_counts = {label: 0 for label in encoded_classes}
+
+    for _, label in train_dataloader:
+        # Update the label counts
+        for l in label:
+            l = l.item()
+            label_counts[l] += 1
+
+
+    for label, count in label_counts.items():
+        print(f"Label {label} has {count} training samples.")
+    
+
+
     return train_dataloader, test_dataloader
 
 
@@ -102,41 +117,41 @@ train_loader, test_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 
 
-def show_batches(data_loader):
+# def show_batches(data_loader):
 
-  # # # Create a figure with 5 rows and 2 columns to display 10 batches
-  fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+#   # # # Create a figure with 5 rows and 2 columns to display 10 batches
+#   fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
-  for i in range(4):
-      # Get a random batch
-      batch = next(iter(data_loader))
+#   for i in range(4):
+#       # Get a random batch
+#       batch = next(iter(data_loader))
 
-      # Get the images and labels from the batch
-      images, labels = batch
-      # print(labels)
+#       # Get the images and labels from the batch
+#       images, labels = batch
+#       # print(labels)
 
-      images = (images - images.min()) / (images.max() - images.min())
-      #plt.figure(figsize=(10, 10))
-      #plt.imshow(grid)
-      #plt.show()
+#       images = (images - images.min()) / (images.max() - images.min())
+#       #plt.figure(figsize=(10, 10))
+#       #plt.imshow(grid)
+#       #plt.show()
 
-      # Make a grid of the images and convert it to a numpy array
-      grid = make_grid(images, nrow=8, padding=2)
-      grid = grid.permute(1, 2, 0).numpy()
+#       # Make a grid of the images and convert it to a numpy array
+#       grid = make_grid(images, nrow=8, padding=2)
+#       grid = grid.permute(1, 2, 0).numpy()
 
-      # Plot the grid in a subplot
-      row = i // 2
-      col = i % 2
-      axs[row, col].imshow(grid)
-      axs[row, col].set_title(f"Batch {i+1}")
+#       # Plot the grid in a subplot
+#       row = i // 2
+#       col = i % 2
+#       axs[row, col].imshow(grid)
+#       axs[row, col].set_title(f"Batch {i+1}")
 
-  # Show the plot
-  plt.tight_layout()
-  plt.savefig('batches.png')
-  plt.show()
+#   # Show the plot
+#   plt.tight_layout()
+#   plt.savefig('batches.png')
+#   plt.show()
 
 # for i in range(0, 20):
-#     batch = next(iter(data_loader))
+#     batch = next(iter(train_loader))
 #     images, labels = batch
 #      # Select a random image from the batch
 #     idx = random.randint(0, len(images) - 1)

@@ -9,6 +9,8 @@ from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, Subset
 import torch.nn as nn
 from dataloader import loadtotensor
+import torch.nn.functional as F
+
 
 
 # Model: "sequential"
@@ -86,7 +88,7 @@ classes = [
 # loss function = CrossEntropyLoss
 # optimizer = Adam and learning rate = 0.001 (maybe 0.01 is better)
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 
 # number of epochs = 10
 num_epochs = 10
@@ -135,7 +137,7 @@ with torch.no_grad():
 
 
 #SAVE MODEL
-torch.save(model.state_dict(), "model.pth")
+torch.save(model.state_dict(), "model_saved.pth")
 
 
 
