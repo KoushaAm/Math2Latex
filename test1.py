@@ -63,7 +63,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-image_paths = ["data/test_image/minus-vector-icon.jpg", "data/test_image/plus.jpg", "data/test_image/beta1.jpg", "data/test_image/beta2.jpg",  "data/test_image/beta3.jpg",  "data/test_image/beta4.jpg"]
+image_paths = ["data/test_image/gama1.jpg","data/test_image/+_10.jpg","data/test_image/minus-vector-icon.jpg", "data/test_image/plus.jpg", "data/test_image/beta1.jpg", "data/test_image/beta2.jpg",  "data/test_image/beta3.jpg",  "data/test_image/beta4.jpg"]
 preprocessed_images = []
 for image_path in image_paths:
     image = Image.open(image_path)

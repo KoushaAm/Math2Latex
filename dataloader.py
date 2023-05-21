@@ -97,16 +97,39 @@ def loadtotensor(dir, train_ratio=0.8):
             l = l.item()
             label_counts[l] += 1
 
+    # Check if any labels have not been seen at least once
+    unseen_labels = [label for label, count in label_counts.items() if count < 10]
 
+    if unseen_labels:
+        # Resample the training data to include the unseen labels
+        resampled_indices = []
+        resampled_labels = []
+
+    for idx, lbl in zip(train_indices, folder_labels):
+        if lbl in unseen_labels:
+            resampled_indices.append(idx)
+            resampled_labels.append(lbl)
+            label_counts[lbl[0]] += 1
+
+            if all(count > 0 for count in label_counts.values()):
+                break
+
+    train_indices.extend(resampled_indices)
+    folder_labels.extend(resampled_labels)
+
+    # Shuffle the train indices and labels
+    random.shuffle(train_indices)
+    folder_labels = [folder_labels[idx] for idx in train_indices]
+
+    # Update the training subset and dataloader
+    train_subset = Subset(dataset, train_indices)
+    train_dataloader = DataLoader(train_subset, batch_size=batch_size, drop_last=True, shuffle=True)
+
+    # print dictionary
     for label, count in label_counts.items():
-        print(f"Label {label} has {count} training samples.")
-    
-
+        print(f"{label} or {classes[label]}: has {count} samples")
 
     return train_dataloader, test_dataloader
-
-
-
 
 
 # Create DataLoader objects for training and test data
@@ -117,38 +140,37 @@ train_loader, test_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 
 
-# def show_batches(data_loader):
+def show_batches(data_loader):
 
-#   # # # Create a figure with 5 rows and 2 columns to display 10 batches
-#   fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+  # # # Create a figure with 5 rows and 2 columns to display 10 batches
+  fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
-#   for i in range(4):
-#       # Get a random batch
-#       batch = next(iter(data_loader))
+  for i in range(4):
+      # Get a random batch
+      batch = next(iter(data_loader))
 
-#       # Get the images and labels from the batch
-#       images, labels = batch
-#       # print(labels)
+      # Get the images and labels from the batch
+      images, labels = batch
+      # print(labels)
 
-#       images = (images - images.min()) / (images.max() - images.min())
-#       #plt.figure(figsize=(10, 10))
-#       #plt.imshow(grid)
-#       #plt.show()
+      images = (images - images.min()) / (images.max() - images.min())
+      #plt.figure(figsize=(10, 10))
+      #plt.imshow(grid)
+      #plt.show()
 
-#       # Make a grid of the images and convert it to a numpy array
-#       grid = make_grid(images, nrow=8, padding=2)
-#       grid = grid.permute(1, 2, 0).numpy()
+      # Make a grid of the images and convert it to a numpy array
+      grid = make_grid(images, nrow=8, padding=2)
+      grid = grid.permute(1, 2, 0).numpy()
 
-#       # Plot the grid in a subplot
-#       row = i // 2
-#       col = i % 2
-#       axs[row, col].imshow(grid)
-#       axs[row, col].set_title(f"Batch {i+1}")
+      # Plot the grid in a subplot
+      row = i // 2
+      col = i % 2
+      axs[row, col].imshow(grid)
+      axs[row, col].set_title(f"Batch {i+1}")
 
-#   # Show the plot
-#   plt.tight_layout()
-#   plt.savefig('batches.png')
-#   plt.show()
+  # Show the plot
+  plt.tight_layout()
+  plt.show()
 
 # for i in range(0, 20):
 #     batch = next(iter(train_loader))
@@ -163,6 +185,6 @@ train_loader, test_loader = loadtotensor("data/{}/".format(FOLDER_NAME))
 
 
 
-# show_batches(train_loader)
+show_batches(train_loader)
 # # show_random_images(data_loader)
 # print(len(classes))
