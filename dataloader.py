@@ -98,7 +98,7 @@ def loadtotensor(dir, train_ratio=0.8):
             label_counts[l] += 1
 
     # Check if any labels have not been seen at least once
-    unseen_labels = [label for label, count in label_counts.items() if count < 10]
+    unseen_labels = [label for label, count in label_counts.items() if count < 50]
 
     if unseen_labels:
         # Resample the training data to include the unseen labels
