@@ -8,7 +8,8 @@ from PIL import Image
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, Subset
 import torch.nn as nn
-from dataloader import loadtotensor
+from dataloader import train_loader
+from dataloader import test_loader
 import torch.nn.functional as F
 
 
@@ -69,8 +70,6 @@ class ConvNet(nn.Module):
 model = ConvNet()
 
 FOLDER_NAME = "data_simple"
-
-train_loader, test_loader= loadtotensor("data/{}/".format(FOLDER_NAME))
 
 model = ConvNet()
 
