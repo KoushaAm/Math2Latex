@@ -36,7 +36,7 @@ encoded_classes = label_encoder.transform(classes)
 
 def loadtotensor(dir, train_ratio=0.8):
     # Define the number of images per folder
-    num_images_per_folder = 100
+    num_images_per_folder = 250
 
     # Create the dataset with all the images
     dataset = ImageFolder(root=dir, transform=transforms.ToTensor())
