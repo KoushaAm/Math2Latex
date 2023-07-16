@@ -15,15 +15,17 @@ from sklearn.preprocessing import LabelEncoder
 FOLDER_NAME = "data_simple"
 
 
-classes = ['beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
-           'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
-           'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
-             'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
-               'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
-                 'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
-                   '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
-                     '2', 'y', '5', 'p', 'w']
+# #classes = ['beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
+# #          'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
+#            'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
+#              'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
+#                'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
+#                  'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
+#                    '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
+#                      '2', 'y', '5', 'p', 'w']
 
+
+classes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 
 # initialize the label encoder
@@ -51,18 +53,21 @@ def loadtotensor(dir, train_ratio=0.8):
     random.seed(seed)
 
     for folder_name in os.listdir(dir):
-        if folder_name != ".DS_Store":
-            folder_path = os.path.join(dir, folder_name + "/")
-            folder_images.extend([f for f in os.listdir(folder_path) if f.endswith('.jpg')])
-            label = label_encoder.transform([folder_name])
+        if folder_name in classes:
+        # Perform some action
 
-            if folder_name in ["exists", "in", "forall"]:
-                indices = random.sample(range(len(folder_images)), 20)
-                folder_indices.extend(indices)
-                folder_labels.extend([label] * len(indices))
-            else:
-                folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
-                folder_labels.extend([label] * num_images_per_folder)
+            if folder_name in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                folder_path = os.path.join(dir, folder_name + "/")
+                folder_images.extend([f for f in os.listdir(folder_path) if f.endswith('.jpg')])
+                label = label_encoder.transform([folder_name])
+
+                if folder_name in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                    indices = random.sample(range(len(folder_images)), num_images_per_folder)
+                    folder_indices.extend(indices)
+                    folder_labels.extend([label] * len(indices))
+                # else:
+                #     folder_indices.extend(random.sample(range(len(folder_images)), num_images_per_folder))
+                #     folder_labels.extend([label] * num_images_per_folder)
 
     # Encode the label using LabelEncoder
     folder_labels = torch.tensor(folder_labels, dtype=torch.int64)
@@ -74,7 +79,6 @@ def loadtotensor(dir, train_ratio=0.8):
     # Calculate the number of training samples
     train_size = int(train_ratio * len(folder_indices))
     test_size = len(folder_indices) - train_size
-
     # Split the indices into training and test indices
     train_indices = folder_indices[:train_size]
     test_indices = folder_indices[train_size:]
