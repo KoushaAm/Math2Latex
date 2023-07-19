@@ -14,11 +14,10 @@ DATA_SIMPLE_DIR = "data/data_simple/"
 #classes of the dataset
 
 #get the categories of the dataset
-def get_categories(dir):
-        
-    symbles = np.array(sorted([symbol for symbol in os.listdir(dir)]))
-    return symbles
 
+def get_categories(dir):
+    symbols = sorted([symbol for symbol in os.listdir(dir) if symbol.isdigit()])
+    return symbols
 
 symbles = get_categories(DATA_SIMPLE_DIR)
 print(symbles, len(symbles)) # 83 classes

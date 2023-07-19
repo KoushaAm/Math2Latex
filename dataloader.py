@@ -59,7 +59,7 @@ def loadtotensor(dir, train_ratio=0.8):
             folder_images.extend([f for f in os.listdir(folder_path) if f.endswith('.png')])
             label = label_encoder.transform([folder_name])
             indices = random.sample(range(len(folder_images)), num_images_per_folder)
-            print(indices)
+            # print(indices)
             
 
             folder_indices.extend(indices)
