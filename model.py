@@ -69,20 +69,23 @@ class ConvNet(nn.Module):
 
 model = ConvNet()
 
-FOLDER_NAME = "data_simple"
+FOLDER_NAME = "nums"
 
 model = ConvNet()
 
-classes = [
-    'beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
-    'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
-    'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
-    'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
-    'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
-    'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
-    '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
-    '2', 'y', '5', 'p', 'w'
-]
+# classes = [
+#     'beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
+#     'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
+#     'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
+#     'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
+#     'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
+#     'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
+#     '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
+#     '2', 'y', '5', 'p', 'w'
+# ]
+
+classes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 
 # loss function = CrossEntropyLoss
 # optimizer = Adam and learning rate = 0.001 (maybe 0.01 is better)

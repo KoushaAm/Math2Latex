@@ -1,1 +1,1 @@
-  plt.savefig('batches.png')
+dataset = ImageFolder(root=dir, transform=transforms.ToTensor())

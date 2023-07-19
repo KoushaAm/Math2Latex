@@ -45,16 +45,18 @@ model.load_state_dict(torch.load("model_saved.pth"))
 model.eval()
 
 # Define the class labels
-classes = [
-    'beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
-    'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
-    'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
-    'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
-    'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
-    'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
-    '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
-    '2', 'y', '5', 'p', 'w'
-]
+# classes = [
+#     'beta', 'pm', 'Delta', 'gamma', 'infty', 'rightarrow', 'div', 'gt',
+#     'forward_slash', 'leq', 'mu', 'exists', 'in', 'times', 'sin', 'R', 
+#     'u', '9', '0', '{', '7', 'i', 'N', 'G', '+', '6', 'z', '}', '1', '8',
+#     'T', 'S', 'cos', 'A', '-', 'f', 'o', 'H', 'sigma', 'sqrt', 'pi',
+#     'int', 'sum', 'lim', 'lambda', 'neq', 'log', 'forall', 'lt', 'theta',
+#     'M', '!', 'alpha', 'j', 'C', ']', '(', 'd', 'v', 'prime', 'q', '=',
+#     '4', 'X', 'phi', '3', 'tan', 'e', ')', '[', 'b', 'k', 'l', 'geq',
+#     '2', 'y', '5', 'p', 'w'
+# ]
+
+classes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 # Preprocess the images
 transform = transforms.Compose([
@@ -63,7 +65,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-image_paths = ["data/test_image/0-9-Handwritten-6-285x300.jpg","data/test_image/0-9-Handwritten-2.jpg","data/test_image/plus.jpg","data/test_image/gama1.jpg","data/test_image/+_10.jpg","data/test_image/minus-vector-icon.jpg", "data/test_image/plus.jpg", "data/test_image/beta1.jpg", "data/test_image/beta2.jpg",  "data/test_image/beta3.jpg",  "data/test_image/beta4.jpg", "data/test_image/!_7865.jpg"]
+image_paths = ["data/test_image/1_test.png", "data/test_image/2_test.png", "data/test_image/4_test.png", "data/test_image/6_test.png", "data/test_image/7_test.png"]
 preprocessed_images = []
 for image_path in image_paths:
     image = Image.open(image_path)
